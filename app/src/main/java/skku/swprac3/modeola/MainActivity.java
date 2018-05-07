@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
@@ -53,6 +54,17 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        // Temporary Button
+        Button gotoArtikButton = (Button)findViewById(R.id.gotoArtikButton);
+        gotoArtikButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent gotoArtik = new Intent(getApplicationContext(), ArtikConnectActivity.class);
+                startActivity(gotoArtik);
+            }
+        });
     }
 
     @Override
