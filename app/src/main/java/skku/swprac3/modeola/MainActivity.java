@@ -65,6 +65,20 @@ public class MainActivity extends AppCompatActivity
                 startActivity(gotoArtik);
             }
         });
+        Button  serviceStartButton = (Button)findViewById(R.id.serviceStartButton);
+        serviceStartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent serviceStart = new Intent(getApplicationContext(), ArtikNofiticationService.class);
+                serviceStart.putExtra("AccessToken", ".................");
+                startService(serviceStart);
+            }
+        });
+
+        // Temporary AccessToken Test
+        /*AuthStateDAL authStateDAL = new AuthStateDAL(this);
+        String mAccessToken = authStateDAL.readAuthState().getAccessToken();
+        gotoArtikButton.setText(mAccessToken);*/
     }
 
     @Override
