@@ -34,7 +34,7 @@
             </intent-filter>
         </activity>
         <service
-            android:name=".ArtikNofiticationService"
+            android:name=".ArtikNotificationService"
             android:exported="false" >
         </service>
     </application>

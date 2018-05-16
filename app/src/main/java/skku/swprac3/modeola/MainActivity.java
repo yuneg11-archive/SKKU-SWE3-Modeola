@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
         serviceStartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent serviceStart = new Intent(getApplicationContext(), ArtikNofiticationService.class);
+                Intent serviceStart = new Intent(getApplicationContext(), ArtikNotificationService.class);
                 serviceStart.putExtra("AccessToken", ".................");
                 startService(serviceStart);
             }
