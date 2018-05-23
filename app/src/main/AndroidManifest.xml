@@ -17,26 +17,33 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
-                <action android:name="skku.swprac3.modeola.ARTIKCLOUD_AUTHORIZATION_RESPONSE"/>
+
+                <action android:name="skku.swprac3.modeola.ARTIKCLOUD_AUTHORIZATION_RESPONSE" />
             </intent-filter>
         </activity>
         <activity android:name=".AddTodoActivity" />
         <activity android:name=".ArtikConnectActivity" />
         <activity android:name=".ArtikTestActivity" />
-        <activity
-            android:name="net.openid.appauth.RedirectUriReceiverActivity">
+        <activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="skku.swprac3.modeola" android:host="oauth2callback"/>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="oauth2callback"
+                    android:scheme="skku.swprac3.modeola" />
             </intent-filter>
         </activity>
+
         <service
             android:name=".ArtikNotificationService"
-            android:exported="false" >
-        </service>
+            android:exported="false"></service>
+
+        <activity android:name=".ProblemSetActivity"></activity>
     </application>
 
 </manifest>

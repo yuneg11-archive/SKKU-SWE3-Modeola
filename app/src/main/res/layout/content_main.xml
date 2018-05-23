@@ -12,23 +12,23 @@
         android:id="@+id/serviceStartButton"
         android:layout_width="143dp"
         android:layout_height="74dp"
+        android:layout_marginTop="8dp"
         android:text="Service Start"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.585" />
+        app:layout_constraintTop_toBottomOf="@+id/gotoArtikButton" />
 
     <Button
         android:id="@+id/gotoArtikButton"
         android:layout_width="143dp"
         android:layout_height="74dp"
+        android:layout_marginBottom="3dp"
         android:text="Go to ARTIK Test"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/serviceStartButton"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.315" />
+        app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

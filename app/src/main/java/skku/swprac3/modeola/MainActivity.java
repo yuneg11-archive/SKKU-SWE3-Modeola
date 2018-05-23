@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 Intent serviceStart = new Intent(getApplicationContext(), ArtikNotificationService.class);
-                serviceStart.putExtra("AccessToken", ".................");
                 startService(serviceStart);
             }
         });
