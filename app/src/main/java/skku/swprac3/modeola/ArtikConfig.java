@@ -22,5 +22,5 @@ class ArtikConfig {
 
     // MUST be consistent with "AUTH REDIRECT URL" of your application set up at the developer.artik.cloud
     static final String REDIRECT_URI = "skku.swprac3.modeola://oauth2callback";
-
+    static public boolean debugNotification = false;
 }

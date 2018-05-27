@@ -26,6 +26,7 @@ public class ArtikNotificationService extends Service {
     SharedPreferences sharedPreferences;
     String stateStr;
     private String mAccessToken;
+    Thread artikNotificationChecker;
 
     @Override
     public IBinder onBind(Intent intent) {
@@ -44,7 +45,7 @@ public class ArtikNotificationService extends Service {
         if (!TextUtils.isEmpty(stateStr)) {
             try {
                 mAccessToken = AuthState.jsonDeserialize(stateStr).getAccessToken();
-                Thread artikNotificationChecker = new Thread(new ARTIKNotificationChecker());
+                artikNotificationChecker = new Thread(new ARTIKNotificationChecker());
                 artikNotificationChecker.start();
 
                 /*Debug*/Toast.makeText(this, "Start Service", Toast.LENGTH_SHORT).show();
@@ -131,11 +132,12 @@ public class ArtikNotificationService extends Service {
                     Log.w(TAG, "Auth Failed");
                 } else if (prevMsgTime == 0) {
                     prevMsgTime = latestMsgTime;
-                } else if (latestMsgTime - prevMsgTime > NotificationInterval) {
+                } else if (latestMsgTime - prevMsgTime > NotificationInterval || /*Debug*/ArtikConfig.debugNotification) {
                     prevMsgTime = latestMsgTime;
                     Intent problemSet = new Intent(getApplicationContext(), ProblemSetActivity.class);
                     problemSet.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                     startActivity(problemSet);
+                    /*Debug*/ArtikConfig.debugNotification = false;
                 }
 
                 try {

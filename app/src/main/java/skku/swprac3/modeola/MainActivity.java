@@ -83,7 +83,8 @@ public class MainActivity extends AppCompatActivity
             Intent serviceStop = new Intent(getApplicationContext(), ArtikNotificationService.class);
             stopService(serviceStop);
         } else if (id == R.id.nav_debug5) {
-
+            ArtikConfig.debugNotification = true;
+            Toast.makeText(this, "Debug Notification", Toast.LENGTH_SHORT).show();
         }
 
         drawer.closeDrawer(GravityCompat.START);

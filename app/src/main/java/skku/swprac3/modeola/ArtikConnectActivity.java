@@ -127,7 +127,6 @@ public class ArtikConnectActivity extends Activity {
                             mAuthStateDAL.writeAuthState(authState);
                             String text = String.format("Received token response [%s]", tokenResponse.jsonSerializeString());
                             Log.i(TAG, text);
-                            onDestroy();
                         } else {
                             Log.w(TAG, "Token Exchange failed", exception);
                             Toast.makeText(getApplicationContext(), "Token Exchange failed", Toast.LENGTH_LONG).show();
@@ -167,5 +166,19 @@ public class ArtikConnectActivity extends Activity {
         );
 
         return builder.build();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        mAuthorizationService = new AuthorizationService(this);
+        mAuthStateDAL = new AuthStateDAL(this);
+        SharedPreferences sharedPreferences = getSharedPreferences(AuthStateDAL.AUTH_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        String stateStr = sharedPreferences.getString(AuthStateDAL.AUTH_STATE, null);
+
+        if (!TextUtils.isEmpty(stateStr)) {
+            Toast.makeText(this, "Connected to ARTIK", Toast.LENGTH_SHORT).show();
+            finish();
+        }
     }
 }
