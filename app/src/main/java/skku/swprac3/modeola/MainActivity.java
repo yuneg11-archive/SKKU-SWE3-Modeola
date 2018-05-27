@@ -32,52 +32,26 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
 
         // ToolBar
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Modeola");
 
         // Floating Action Button
-        fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //Toast.makeText(MainActivity.this, "Please Add Action", Toast.LENGTH_SHORT).show();
-                Intent addTodo = new Intent(getApplicationContext(), AddTodoActivity.class);
-                startActivity(addTodo);
             }
         });
 
         //Drawer and Navigation
-        drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer = findViewById(R.id.drawer_layout);
+        toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.addDrawerListener(toggle);
         toggle.syncState();
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-
-        // Temporary Button
-        Button gotoArtikButton = (Button)findViewById(R.id.gotoArtikButton);
-        gotoArtikButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent gotoArtik = new Intent(getApplicationContext(), ArtikConnectActivity.class);
-                startActivity(gotoArtik);
-            }
-        });
-        Button  serviceStartButton = (Button)findViewById(R.id.serviceStartButton);
-        serviceStartButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent serviceStart = new Intent(getApplicationContext(), ArtikNotificationService.class);
-                startService(serviceStart);
-            }
-        });
-
-        // Temporary AccessToken Test
-        /*AuthStateDAL authStateDAL = new AuthStateDAL(this);
-        String mAccessToken = authStateDAL.readAuthState().getAccessToken();
-        gotoArtikButton.setText(mAccessToken);*/
     }
 
     @Override
@@ -95,13 +69,20 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_send) {
+        if (id == R.id.nav_debug1) { // Clear Auth State
+            new AuthStateDAL(this).clearAuthState();
+            Toast.makeText(this, "Clear Auth State", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_debug2) { // Connect ARTIK
+            Intent gotoArtik = new Intent(getApplicationContext(), ArtikConnectActivity.class);
+            gotoArtik.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(gotoArtik);
+        } else if (id == R.id.nav_debug3) { // Start Service
+            Intent serviceStart = new Intent(getApplicationContext(), ArtikNotificationService.class);
+            startService(serviceStart);
+        } else if (id == R.id.nav_debug4) { // Stop Service
+            Intent serviceStop = new Intent(getApplicationContext(), ArtikNotificationService.class);
+            stopService(serviceStop);
+        } else if (id == R.id.nav_debug5) {
 
         }
 

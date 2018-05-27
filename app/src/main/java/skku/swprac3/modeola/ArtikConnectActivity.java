@@ -4,11 +4,13 @@ import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.customtabs.CustomTabsIntent;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -27,9 +29,7 @@ public class ArtikConnectActivity extends Activity {
     static final String TAG = "ArtikConnectActivity";
     private static final String ARTIKCLOUD_AUTHORIZE_URI = "https://accounts.artik.cloud/signin";
     private static final String ARTIKCLOUD_TOKEN_URI = "https://accounts.artik.cloud/token";
-    static final String INTENT_ARTIKCLOUD_AUTHORIZATION_RESPONSE
-            = "skku.swprac3.modeola.ARTIKCLOUD_AUTHORIZATION_RESPONSE";
-    static final String USED_INTENT = "USED_INTENT";
+    static final String INTENT_ARTIKCLOUD_AUTHORIZATION_RESPONSE = "skku.swprac3.modeola.ARTIKCLOUD_AUTHORIZATION_RESPONSE";
 
     AuthorizationService mAuthorizationService;
     AuthStateDAL mAuthStateDAL;
@@ -39,11 +39,17 @@ public class ArtikConnectActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_artik_connect);
 
-        // Temporary Setup
         mAuthorizationService = new AuthorizationService(this);
         mAuthStateDAL = new AuthStateDAL(this);
+        SharedPreferences sharedPreferences = getSharedPreferences(AuthStateDAL.AUTH_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        String stateStr = sharedPreferences.getString(AuthStateDAL.AUTH_STATE, null);
 
-        Button connectArtikButton = (Button)findViewById(R.id.connectArtikButton);
+        if (!TextUtils.isEmpty(stateStr)) {
+            Toast.makeText(this, "Already connected to ARTIK", Toast.LENGTH_SHORT).show();
+            finish();
+        }
+
+        Button connectArtikButton = findViewById(R.id.connectArtikButton);
         connectArtikButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 try {
@@ -55,11 +61,8 @@ public class ArtikConnectActivity extends Activity {
         });
     }
 
-    // File OAuth call with Authorization Code with PKCE method
-    // https://developer.artik.cloud/documentation/getting-started/authentication.html#authorization-code-with-pkce-method
     private void doAuth() {
         AuthorizationRequest authorizationRequest = createAuthorizationRequest();
-
         PendingIntent authorizationIntent = PendingIntent.getActivity(
                 this,
                 authorizationRequest.hashCode(),
@@ -75,7 +78,6 @@ public class ArtikConnectActivity extends Activity {
 
     @Override
     protected void onStart() {
-        Log.d(TAG, "Entering onStart ...");
         super.onStart();
         checkIntent(getIntent());
     }
@@ -86,23 +88,17 @@ public class ArtikConnectActivity extends Activity {
     }
 
     private void checkIntent(@Nullable Intent intent) {
-
         Log.d(TAG, "Entering checkIntent ...");
         if (intent != null) {
             String action = intent.getAction();
             if(action != null) {
                 switch (action) {
                     case INTENT_ARTIKCLOUD_AUTHORIZATION_RESPONSE:
-                        Log.d(TAG, "checkIntent action = " + action
-                                + " intent.hasExtra(USED_INTENT) = " + intent.hasExtra(USED_INTENT));
-                        if (!intent.hasExtra(USED_INTENT)) {
-                            handleAuthorizationResponse(intent);
-                            intent.putExtra(USED_INTENT, true);
-                        }
+                        Log.d(TAG, "checkIntent action = " + action);
+                        handleAuthorizationResponse(intent);
                         break;
                     default:
                         Log.w(TAG, "checkIntent action = " + action);
-                        // do nothing
                 }
             } else {
                 Log.w(TAG, "checkIntent intent's action is null!");
@@ -118,9 +114,7 @@ public class ArtikConnectActivity extends Activity {
         Log.i(TAG, "Entering handleAuthorizationResponse with response from Intent = " + response.jsonSerialize().toString());
 
         if (response != null) {
-
             if (response.authorizationCode != null ) { // Authorization Code method: succeeded to get code
-
                 final AuthState authState = new AuthState(response, error);
                 Log.i(TAG, "Received code = " + response.authorizationCode + "\n make another call to get token ...");
 
@@ -130,11 +124,10 @@ public class ArtikConnectActivity extends Activity {
                     public void onTokenRequestCompleted(@Nullable TokenResponse tokenResponse, @Nullable AuthorizationException exception) {
                         if (tokenResponse != null) {
                             authState.update(tokenResponse, exception);
-
-                            mAuthStateDAL.writeAuthState(authState); //store into persistent storage for use later
+                            mAuthStateDAL.writeAuthState(authState);
                             String text = String.format("Received token response [%s]", tokenResponse.jsonSerializeString());
                             Log.i(TAG, text);
-                            startArtikTestActivity();
+                            onDestroy();
                         } else {
                             Log.w(TAG, "Token Exchange failed", exception);
                             Toast.makeText(getApplicationContext(), "Token Exchange failed", Toast.LENGTH_LONG).show();
@@ -146,7 +139,7 @@ public class ArtikConnectActivity extends Activity {
 
                 if (response.additionalParameters.get("status").equalsIgnoreCase("login_request")) {
                     // ARTIK Cloud instructs the app to display a sign-in form
-                    doAuth();
+                    //doAuth();
                 } else {
                     Log.d(TAG, response.jsonSerialize().toString());
                 }
@@ -156,11 +149,6 @@ public class ArtikConnectActivity extends Activity {
             Log.w(TAG, "Authorization Response is null ");
             Log.d(TAG, "Authorization Exception = " + error);
         }
-    }
-
-    private void startArtikTestActivity() {
-        Intent gotoArtikTest = new Intent(this, ArtikTestActivity.class);
-        startActivity(gotoArtikTest);
     }
 
     static AuthorizationRequest createAuthorizationRequest() {

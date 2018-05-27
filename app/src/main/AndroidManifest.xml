@@ -23,13 +23,10 @@
                 <action android:name="skku.swprac3.modeola.ARTIKCLOUD_AUTHORIZATION_RESPONSE" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddTodoActivity" />
         <activity android:name=".ArtikConnectActivity" />
-        <activity android:name=".ArtikTestActivity" />
         <activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
@@ -38,11 +35,9 @@
                     android:scheme="skku.swprac3.modeola" />
             </intent-filter>
         </activity>
-
         <service
             android:name=".ArtikNotificationService"
             android:exported="false"></service>
-
         <activity android:name=".ProblemSetActivity"></activity>
     </application>
 
