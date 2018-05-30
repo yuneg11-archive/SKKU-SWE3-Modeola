@@ -17,28 +17,33 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
-                <action android:name="skku.swprac3.modeola.ARTIKCLOUD_AUTHORIZATION_RESPONSE"/>
+
+                <action android:name="skku.swprac3.modeola.ARTIKCLOUD_AUTHORIZATION_RESPONSE" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddTodoActivity" />
         <activity android:name=".ArtikConnectActivity" />
-        <activity android:name=".ArtikTestActivity" />
-        <activity
-            android:name="net.openid.appauth.RedirectUriReceiverActivity">
+        <activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-                <category android:name="android.intent.category.BROWSABLE"/>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
 
-                <!--
-                 Make sure these two intent filter fields respects "AUTH REDIRECT URL"
-                 of your application set up at the developer.artik.cloud.
-                 For example, if REDIRECT URL is "cloud.artik.example.oauth://oauth2callback",
-                 the intent-filter fields looks like the following
-                -->
-                <data android:scheme="skku.swprac3.modeola" android:host="oauth2callback"/>
+                <data
+                    android:host="oauth2callback"
+                    android:scheme="skku.swprac3.modeola" />
             </intent-filter>
+        </activity>
+        <service
+            android:name=".ArtikNotificationService"
+            android:exported="false"></service>
+        <activity android:name=".ProblemSetActivity"></activity>
+        <activity
+            android:name=".PopupActivity"
+            android:launchMode="singleInstance"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent">
         </activity>
     </application>
 
