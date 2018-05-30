@@ -134,9 +134,9 @@ public class ArtikNotificationService extends Service {
                     prevMsgTime = latestMsgTime;
                 } else if (latestMsgTime - prevMsgTime > NotificationInterval || /*Debug*/ArtikConfig.debugNotification) {
                     prevMsgTime = latestMsgTime;
-                    Intent problemSet = new Intent(getApplicationContext(), ProblemSetActivity.class);
-                    problemSet.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                    startActivity(problemSet);
+                    Intent popup = new Intent(getApplicationContext(), PopupActivity.class);
+                    popup.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+                    startActivity(popup);
                     /*Debug*/ArtikConfig.debugNotification = false;
                 }
 
