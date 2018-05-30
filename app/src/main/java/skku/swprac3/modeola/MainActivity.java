@@ -41,7 +41,8 @@ import skku.swprac3.modeola.flexiblecalendar.FlexibleCalendarView;
 import skku.swprac3.modeola.flexiblecalendar.exception.HighValueException;
 import skku.swprac3.modeola.flexiblecalendar.view.BaseCellView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, DatePickerDialog.OnDateSetListener {
 
     // Views
     Toolbar toolbar;
@@ -502,8 +503,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             }
         });
 
-        //!!!! Temporary disabled
-        /*findViewById(R.id.date_picker).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.date_picker).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar calendar = Calendar.getInstance();
@@ -515,7 +515,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 calendarView.refresh();
                 //initializeEvents();
             }
-        });*/
+        });
 
         refreshBot(cur_year, cur_month-1, cur_day);
     }
@@ -544,8 +544,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    //!!! Temporary disabled methods (conflict implementation of class)
-/*
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -573,7 +572,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         } catch (HighValueException e) {
             e.printStackTrace();
         }
-    }*/
+    }
 
     private void fillEvents(int year, int month) {
 
