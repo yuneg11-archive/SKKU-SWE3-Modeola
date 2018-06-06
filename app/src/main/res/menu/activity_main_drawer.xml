@@ -24,6 +24,10 @@
             android:id="@+id/nav_debug5"
             android:icon="@drawable/ic_menu_manage"
             android:title="Debug Notification" />
+        <item
+            android:id="@+id/nav_debug6"
+            android:icon="@drawable/ic_menu_manage"
+            android:title="Go to Problem Activity" />
     </group>
 
 </menu>

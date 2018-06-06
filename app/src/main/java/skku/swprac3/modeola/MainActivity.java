@@ -112,6 +112,9 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_debug5) {
             ArtikConfig.debugNotification = true;
             Toast.makeText(this, "Debug Notification", Toast.LENGTH_SHORT).show();
+        } else if (id == R.id.nav_debug6) {
+            Intent problemSetActivity = new Intent(getApplicationContext(), ProblemSetActivity.class);
+            startActivity(problemSetActivity);
         }
 
         drawer.closeDrawer(GravityCompat.START);
