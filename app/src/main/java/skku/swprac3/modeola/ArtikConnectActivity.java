@@ -30,6 +30,7 @@ public class ArtikConnectActivity extends Activity {
     private static final String ARTIKCLOUD_AUTHORIZE_URI = "https://accounts.artik.cloud/signin";
     private static final String ARTIKCLOUD_TOKEN_URI = "https://accounts.artik.cloud/token";
     static final String INTENT_ARTIKCLOUD_AUTHORIZATION_RESPONSE = "skku.swprac3.modeola.ARTIKCLOUD_AUTHORIZATION_RESPONSE";
+    boolean connectedToArtikMessageShow = false;
 
     AuthorizationService mAuthorizationService;
     AuthStateDAL mAuthStateDAL;
@@ -127,6 +128,7 @@ public class ArtikConnectActivity extends Activity {
                             mAuthStateDAL.writeAuthState(authState);
                             String text = String.format("Received token response [%s]", tokenResponse.jsonSerializeString());
                             Log.i(TAG, text);
+                            onResume();
                         } else {
                             Log.w(TAG, "Token Exchange failed", exception);
                             Toast.makeText(getApplicationContext(), "Token Exchange failed", Toast.LENGTH_LONG).show();
@@ -177,7 +179,10 @@ public class ArtikConnectActivity extends Activity {
         String stateStr = sharedPreferences.getString(AuthStateDAL.AUTH_STATE, null);
 
         if (!TextUtils.isEmpty(stateStr)) {
-            Toast.makeText(this, "Connected to ARTIK", Toast.LENGTH_SHORT).show();
+            if(!connectedToArtikMessageShow) {
+                Toast.makeText(this, "Connected to ARTIK", Toast.LENGTH_SHORT).show();
+                connectedToArtikMessageShow = true;
+            }
             finish();
         }
     }

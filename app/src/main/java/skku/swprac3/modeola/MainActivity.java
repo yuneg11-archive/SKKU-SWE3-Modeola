@@ -2,10 +2,14 @@ package skku.swprac3.modeola;
 
 import android.annotation.TargetApi;
 import android.app.DatePickerDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -27,8 +31,9 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-//import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AlertDialog;
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -79,6 +84,14 @@ public class MainActivity extends AppCompatActivity
         // Calendar View Set
         setCalendar();
 
+        // Connect Artik if not already connected
+        SharedPreferences sharedPreferences = getSharedPreferences(AuthStateDAL.AUTH_PREFERENCES_NAME, Context.MODE_PRIVATE);
+        String stateStr = sharedPreferences.getString(AuthStateDAL.AUTH_STATE, null);
+        if (TextUtils.isEmpty(stateStr)) {
+            Intent gotoArtik = new Intent(getApplicationContext(), ArtikConnectActivity.class);
+            gotoArtik.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            startActivity(gotoArtik);
+        }
     }
 
     @Override
