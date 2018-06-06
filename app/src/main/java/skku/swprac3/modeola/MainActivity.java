@@ -5,11 +5,13 @@ import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
+import android.provider.ContactsContract;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -31,10 +33,6 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
-import android.support.v7.app.AlertDialog;
-
-import org.json.JSONException;
-
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -51,7 +49,6 @@ public class MainActivity extends AppCompatActivity
 
     // Views
     Toolbar toolbar;
-    FloatingActionButton fab;
     DrawerLayout drawer;
     ActionBarDrawerToggle toggle;
     NavigationView navigationView;
@@ -60,6 +57,10 @@ public class MainActivity extends AppCompatActivity
     ListView lvSchedule;
 
     List<CustomEvent>[] colorLst = null;
+
+    String name=null;
+    String number=null;
+    EditText whopick;
 
     private Map<Integer, List<CustomEvent>> eventMap;
     private FlexibleCalendarView calendarView;
@@ -92,6 +93,9 @@ public class MainActivity extends AppCompatActivity
             gotoArtik.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(gotoArtik);
         }
+
+        // Test
+        test();
     }
 
     @Override
@@ -103,7 +107,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -257,6 +260,7 @@ public class MainActivity extends AppCompatActivity
                                     }
                                 })
                                 .setNegativeButton("수정", new DialogInterface.OnClickListener() {
+                                    @TargetApi(Build.VERSION_CODES.M)
                                     @Override
                                     public void onClick(DialogInterface dialogInterface, int i) {
                                         LinearLayout layout=new LinearLayout(MainActivity.this);
@@ -286,7 +290,16 @@ public class MainActivity extends AppCompatActivity
 
                                                         final TextView whoname=new TextView(MainActivity.this);
                                                         whoname.setText("이름을 입력하세요");
-                                                        final EditText whopick=new EditText(MainActivity.this);
+                                                        whopick=new EditText(MainActivity.this);
+                                                        //연락처를 연다
+                                                        whopick.setOnClickListener(new View.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(View v) {
+                                                                Intent intent = new Intent(Intent.ACTION_PICK);
+                                                                intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+                                                                startActivityForResult(intent, 0);
+                                                            }
+                                                        });
                                                         whopick.setText(item.getWho());
 
                                                         final TextView whatname=new TextView(MainActivity.this);
@@ -414,7 +427,17 @@ public class MainActivity extends AppCompatActivity
 
                                                 final TextView whoname=new TextView(MainActivity.this);
                                                 whoname.setText("이름을 입력하세요");
-                                                final EditText whopick=new EditText(MainActivity.this);
+                                                whopick=new EditText(MainActivity.this);
+                                                //연락처를 연다
+                                                whopick.setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        Intent intent = new Intent(Intent.ACTION_PICK);
+                                                        intent.setData(ContactsContract.CommonDataKinds.Phone.CONTENT_URI);
+                                                        startActivityForResult(intent, 0);
+                                                    }
+                                                });
+
 
                                                 final TextView whatname=new TextView(MainActivity.this);
                                                 whatname.setText("할 일을 입력하세요");
@@ -505,8 +528,12 @@ public class MainActivity extends AppCompatActivity
                                 layout0.removeAllViews();
 
                             }
-                        })
-                        .create().show();
+                        }).setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        layout0.removeAllViews();
+                    }
+                }).create().show();
             }
         });
 
@@ -550,6 +577,24 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.menu_calendar, menu);
         return true;
     }
+    //연락처에서 이름 가져오기
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode == RESULT_OK)
+        {
+            Cursor cursor = getContentResolver().query(data.getData(),
+                    new String[]{ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                            ContactsContract.CommonDataKinds.Phone.NUMBER}, null, null, null);
+            cursor.moveToFirst();
+            name = cursor.getString(0);        //0은 이름을 얻어옵니다.
+            number = cursor.getString(1);   //1은 번호를 받아옵니다.
+            whopick.setText(name);
+            cursor.close();
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+
 
 
     @Override
@@ -621,5 +666,16 @@ public class MainActivity extends AppCompatActivity
         }
 
         //Toast.makeText(MainActivity.this,"fillEvents date " + year + "  " + month,Toast.LENGTH_SHORT).show();
+    }
+
+
+
+
+
+
+
+    void test() {
+        List testList = new myDBHelper(getApplicationContext()).getDateSchedule(2018, 4, 24);
+        int a = 0;
     }
 }

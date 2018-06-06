@@ -78,9 +78,6 @@ public class myDBHelper extends SQLiteOpenHelper {
         return allSchedule;
     }
 
-
-
-
     public List getDateSchedule(int year, int month, int day){
 
         StringBuffer sb=new StringBuffer();
