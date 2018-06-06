@@ -44,7 +44,6 @@ public class ScheduleListAdapter extends BaseAdapter {
             convertView=new LinearLayout(context);
             ((LinearLayout)convertView).setOrientation(LinearLayout.HORIZONTAL);
 
-
             Schedule schedule=(Schedule)getItem(position);
 
             TextView tvMain=new TextView(context);
