@@ -23,6 +23,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".ArtikConnectActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ProblemSetActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".ProblemSetDebugActivity" android:screenOrientation="portrait"/>
         <activity android:name="net.openid.appauth.RedirectUriReceiverActivity">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />

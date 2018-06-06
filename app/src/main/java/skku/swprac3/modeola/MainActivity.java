@@ -93,9 +93,6 @@ public class MainActivity extends AppCompatActivity
             gotoArtik.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(gotoArtik);
         }
-
-        // Test
-        test();
     }
 
     @Override
@@ -129,8 +126,8 @@ public class MainActivity extends AppCompatActivity
             ArtikConfig.debugNotification = true;
             Toast.makeText(this, "Debug Notification", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_debug6) {
-            Intent problemSetActivity = new Intent(getApplicationContext(), ProblemSetActivity.class);
-            startActivity(problemSetActivity);
+            Intent problemSetDebugActivity = new Intent(getApplicationContext(), ProblemSetDebugActivity.class);
+            startActivity(problemSetDebugActivity);
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -664,18 +661,6 @@ public class MainActivity extends AppCompatActivity
             }
             if(eventNum != 0) eventMap.put(i+1, colorLst[i]);
         }
-
         //Toast.makeText(MainActivity.this,"fillEvents date " + year + "  " + month,Toast.LENGTH_SHORT).show();
-    }
-
-
-
-
-
-
-
-    void test() {
-        List testList = new myDBHelper(getApplicationContext()).getDateSchedule(2018, 4, 24);
-        int a = 0;
     }
 }
