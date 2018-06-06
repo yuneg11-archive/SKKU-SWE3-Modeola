@@ -8,6 +8,12 @@
     tools:context=".MainActivity">
 
     <Button
+        android:id="@+id/dummy"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="space filler" />
+
+    <Button
         android:id="@+id/date_picker"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

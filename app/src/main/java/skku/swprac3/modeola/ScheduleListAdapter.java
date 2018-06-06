@@ -50,35 +50,35 @@ public class ScheduleListAdapter extends BaseAdapter {
 
             TextView tvYear=new TextView(context);
             tvYear.setPadding(20,0,20,0);
-            tvYear.setTextColor(Color.rgb(255,255,255));
+            tvYear.setTextColor(Color.rgb(0,0,0));
 
             TextView tvMonth=new TextView(context);
             tvMonth.setPadding(20,0,20,0);
-            tvMonth.setTextColor(Color.rgb(255,255,255));
+            tvMonth.setTextColor(Color.rgb(0,0,0));
 
             TextView tvDay=new TextView(context);
             tvDay.setPadding(20,0,20,0);
-            tvDay.setTextColor(Color.rgb(255,255,255));
+            tvDay.setTextColor(Color.rgb(0,0,0));
 
             TextView tvHour=new TextView(context);
             tvHour.setPadding(20,0,20,0);
-            tvHour.setTextColor(Color.rgb(255,255,255));
+            tvHour.setTextColor(Color.rgb(0,0,0));
 
             TextView tvWhere=new TextView(context);
             tvWhere.setPadding(20,0,20,0);
-            tvWhere.setTextColor(Color.rgb(255,255,255));
+            tvWhere.setTextColor(Color.rgb(0,0,0));
 
             TextView tvWho=new TextView(context);
             tvWho.setPadding(20,0,20,0);
-            tvWho.setTextColor(Color.rgb(255,255,255));
+            tvWho.setTextColor(Color.rgb(0,0,0));
 
             TextView tvWhat=new TextView(context);
             tvWhat.setPadding(20,0,20,0);
-            tvWhat.setTextColor(Color.rgb(255,255,255));
+            tvWhat.setTextColor(Color.rgb(0,0,0));
 
             TextView tvWeight=new TextView(context);
             tvWeight.setPadding(20,0,20,0);
-            tvWeight.setTextColor(Color.rgb(255,255,255));
+            tvWeight.setTextColor(Color.rgb(0,0,0));
 
             // ((LinearLayout)convertView).addView(tvId);
             ((LinearLayout)convertView).addView(tvYear);
