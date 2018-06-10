@@ -7,6 +7,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 
 public class myDBHelper extends SQLiteOpenHelper {
@@ -120,4 +123,43 @@ public class myDBHelper extends SQLiteOpenHelper {
         return n;
     }
 
+    public List<Schedule> getScheduleForProblem() {
+        return getScheduleForProblem(25);
+    }
+
+    public List<Schedule> getScheduleForProblem(int number) {
+        ArrayList<Schedule> schedules = (ArrayList<Schedule>) getAllSchedule();
+
+        // Temporary toast for schedule shortage
+        if(schedules.size() < number) {
+            Toast.makeText(context, "Not enough schedules!", Toast.LENGTH_SHORT).show();
+        }
+
+        // Sort schedules with their priority (date, weight, etc...)
+        Collections.sort(schedules, priorityComparator);
+
+        // Remain only "number" schedules
+        Iterator it = schedules.iterator();
+        for(int i = 0; i < number; i++) {
+            it.next();
+        }
+        do {
+            it.next();
+            it.remove();
+        } while(it.hasNext());
+
+        return schedules;
+    }
+
+    public static Comparator<Schedule> priorityComparator = new Comparator<Schedule>(){
+        public int compare(Schedule schedule1, Schedule schedule2){
+            // Descending order
+            return calculatePriority(schedule2) - calculatePriority(schedule1);
+        }
+        public int calculatePriority(Schedule schedule) {
+            // Priority principle
+            // Priority == Weight of schedule
+            return schedule.getWeight();
+        }
+    };
 }
