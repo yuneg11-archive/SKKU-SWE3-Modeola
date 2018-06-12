@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content" >
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="28sp"
+            android:text="[채점 결과]"
+            android:textStyle="bold"/>
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
+        android:textSize="20sp"
+        android:text="나의 점수는..."
+        android:textStyle="bold"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:textSize="30sp"
+            android:text="0점!"
+            android:textStyle="bold"
+            android:id="@+id/score"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="20sp"
+            android:text="[답안지 분석]"
+            android:textStyle="bold"/>
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="OX 문제 1번"
+        android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="~이다."
+            android:id="@+id/OX_question_1"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="제출 답안: O  실제 답안: X    *틀림ㅠ*"
+            android:id="@+id/OX_user_answer_1" />
+
+        <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="OX 문제 2번"
+        android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="~이다."
+            android:id="@+id/OX_question_2"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="제출 답안: O  실제 답안: X    *틀림ㅠ*"
+            android:id="@+id/OX_user_answer_2" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="OX 문제 3번"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="~이다."
+            android:id="@+id/OX_question_3"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="제출 답안: O  실제 답안: X    *틀림ㅠ*"
+            android:id="@+id/OX_user_answer_3" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="5지선다 문제 1번"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:text="5지선다 문제 2번"
+            android:textStyle="bold"/>
+
+
+
+    </LinearLayout>
+</ScrollView>

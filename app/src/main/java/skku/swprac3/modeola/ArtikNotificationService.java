@@ -48,7 +48,7 @@ public class ArtikNotificationService extends Service {
                 artikNotificationChecker = new Thread(new ARTIKNotificationChecker());
                 artikNotificationChecker.start();
 
-                /*Debug*/Toast.makeText(this, "Start Service", Toast.LENGTH_SHORT).show();
+                /*Debug*///Toast.makeText(this, "Start Service", Toast.LENGTH_SHORT).show();
             } catch(JSONException ignore) {
                 Log.w("AUTH", ignore.getMessage(), ignore);
 

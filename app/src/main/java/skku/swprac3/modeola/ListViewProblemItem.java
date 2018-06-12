@@ -1,6 +1,7 @@
 package skku.swprac3.modeola;
 
 public class ListViewProblemItem {
+    private int type;
     private String probName;
     private String probItem1;
     private String probItem2;
@@ -8,23 +9,8 @@ public class ListViewProblemItem {
     private String probItem4;
     private String probItem5;
 
-    private int year,month,day,hour;
-    private String where,who,what;
-    private int weight;
-    private boolean isAnswer;
-
-    ListViewProblemItem () { }
-
-    ListViewProblemItem(int year, int month, int day, int hour, String where, String who, String what, int weight, boolean isAnswer){
-        this.year = year;
-        this.month = month;
-        this.day = day;
-        this.hour = hour;
-        this.where = where;
-        this.who = who;
-        this.what = what;
-        this.weight = weight;
-        this.isAnswer = false;
+    public int getType(){
+        return this.type;
     }
 
     public String getProbName(){
@@ -51,6 +37,10 @@ public class ListViewProblemItem {
         return this.probItem5;
     }
 
+    public void setType(int type){
+        this.type = type;
+    }
+
     public void setProbName(String probName){
         this.probName = probName;
     }
@@ -75,30 +65,5 @@ public class ListViewProblemItem {
         this.probItem5 = probItem5;
     }
 
-
-    public void setYear(int year){
-        this.year = year;
-    }
-    public void setMonth(int month){
-        this.month = month;
-    }
-    public void setDay(int day){
-        this.day = day;
-    }
-    public void setHour(int hour){
-        this.hour = hour;
-    }
-    public void setWhere(String where){
-        this.where = where;
-    }
-    public void setWho(String who){
-        this.who = who;
-    }
-    public void setWhat(String what){
-        this.what = what;
-    }
-    public void setAnswer(boolean answer){
-        this.isAnswer = answer;
-    }
 }
 

@@ -182,6 +182,8 @@ public class ArtikConnectActivity extends Activity {
             if(!connectedToArtikMessageShow) {
                 Toast.makeText(this, "Connected to ARTIK", Toast.LENGTH_SHORT).show();
                 connectedToArtikMessageShow = true;
+                Intent serviceStart = new Intent(getApplicationContext(), ArtikNotificationService.class);
+                startService(serviceStart);
             }
             finish();
         }

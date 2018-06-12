@@ -13,13 +13,13 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="24sp"
+            android:textSize="18sp"
             android:text="Problem name"
             android:id="@+id/itemProblemName"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:textSize="14sp"
+            android:textSize="16sp"
             android:text="none"
             android:id="@+id/questionText"/>
         <RadioGroup

@@ -64,4 +64,17 @@ public class Schedule {
     }
     public void setWeight(int weight){this.weight=weight;}
 
+    public Schedule clone() {
+        Schedule schedule = new Schedule();
+        schedule.id = this. id;
+        schedule.year = this.year;
+        schedule.month = this.month;
+        schedule.day = this.day;
+        schedule.hour = this.hour;
+        schedule.where = this.where;
+        schedule.who = this.who;
+        schedule.what = this.what;
+        schedule.weight = this.weight;
+        return schedule;
+    }
 }

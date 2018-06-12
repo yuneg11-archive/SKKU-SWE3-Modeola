@@ -162,11 +162,18 @@ public class myDBHelper extends SQLiteOpenHelper {
 
     public Problems getProblems(int probType1num, int probType2num) {
         List<Schedule> schedules = getScheduleForProblem(probType1num * 2 + probType2num * 5);
-        List<String> names = new ArrayList<String>();
-        List<String> contents = new ArrayList<String>();
-        List<Integer> answers = new ArrayList<Integer>();
-        List<Integer> types = new ArrayList<Integer>();
+        List<Schedule> schedulesOriginal = new ArrayList<>();
+        List<String> contents = new ArrayList<>();
+        List<String> contentsOriginal = new ArrayList<>();
+        List<Integer> answers = new ArrayList<>();
+        List<Integer> types = new ArrayList<>();
         Random random = new Random();
+
+        // Shuffle schedules and Copy original data
+        Collections.shuffle(schedules);
+        for(Schedule schedule : schedules) {
+            schedulesOriginal.add(schedule.clone());
+        }
 
         // Construct types and answers
         for(int i = 0; i < probType1num; i++) {
@@ -181,7 +188,6 @@ public class myDBHelper extends SQLiteOpenHelper {
         // Construct contents
         int scheduleBaseCur = 0;
         int problemCur = 0;
-        Collections.shuffle(schedules);
         for(int i = 0; i < probType1num; i++) {
             if(answers.get(problemCur) == 1) {
                 int property = random.nextInt(4);
@@ -199,20 +205,31 @@ public class myDBHelper extends SQLiteOpenHelper {
                 }
             }
             Schedule s = schedules.get(scheduleBaseCur);
-            names.add(makeContents(s.getYear(), s.getMonth(), s.getDay(), s.getHour(), s.getWhere(), s.getWho(), s.getWhat()));
+            contents.add(makeContents(s.getYear(), s.getMonth(), s.getDay(), s.getHour(), s.getWhere(), s.getWho(), s.getWhat()));
+            Schedule so = schedulesOriginal.get(scheduleBaseCur);
+            contentsOriginal.add(makeContents(so.getYear(), so.getMonth(), so.getDay(), so.getHour(), so.getWhere(), so.getWho(), so.getWhat()));
             contents.add("");
-            contents.add("");
+            contentsOriginal.add("");
             problemCur++;
             scheduleBaseCur+=2;
         }
         for(int i = 0; i < probType2num; i++) {
             int property = random.nextInt(4);
-            List<Integer> contentShuffle = new ArrayList<Integer>();
-            contentShuffle.add(0);
-            contentShuffle.add(1);
-            contentShuffle.add(2);
-            contentShuffle.add(3);
-            Collections.shuffle(contentShuffle);
+            List<Integer> contentShuffle;
+            boolean rerun;
+            do {
+                contentShuffle = new ArrayList<>();
+                contentShuffle.add(0);
+                contentShuffle.add(1);
+                contentShuffle.add(2);
+                contentShuffle.add(3);
+                Collections.shuffle(contentShuffle);
+                rerun = false;
+                for(int j = 0; j < 4; j++) {
+                    if(j == contentShuffle.get(j))
+                        rerun = true;
+                }
+            } while(rerun);
             if(property == 0) { // When
                 int[][] time = new int[4][4];
                 for(int j = 0; j < 4; j++) {
@@ -249,15 +266,18 @@ public class myDBHelper extends SQLiteOpenHelper {
             for(int j = 0; j < 5; j++) {
                 Schedule s = schedules.get(scheduleBaseCur+j);
                 contents.add(makeContents(s.getYear(), s.getMonth(), s.getDay(), s.getHour(), s.getWhere(), s.getWho(), s.getWhat()));
+                Schedule so = schedulesOriginal.get(scheduleBaseCur+j);
+                contentsOriginal.add(makeContents(so.getYear(), so.getMonth(), so.getDay(), so.getHour(), so.getWhere(), so.getWho(), so.getWhat()));
             }
-            if(answers.get(i) != 4)
-                Collections.swap(contents, scheduleBaseCur+answers.get(problemCur), scheduleBaseCur+4);
-            names.add("");
+            if(answers.get(i) != 4) {
+                Collections.swap(contents, scheduleBaseCur + answers.get(problemCur), scheduleBaseCur + 4);
+                Collections.swap(contentsOriginal, scheduleBaseCur + answers.get(problemCur), scheduleBaseCur + 4);
+            }
             problemCur++;
             scheduleBaseCur+=5;
         }
 
-        return new Problems(names, contents, answers, types);
+        return new Problems(contents, contentsOriginal, answers, types);
     }
 
     String makeContents(int year, int month, int day, int hour, String where, String who, String what) {

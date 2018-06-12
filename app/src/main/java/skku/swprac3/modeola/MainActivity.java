@@ -92,7 +92,14 @@ public class MainActivity extends AppCompatActivity
             Intent gotoArtik = new Intent(getApplicationContext(), ArtikConnectActivity.class);
             gotoArtik.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
             startActivity(gotoArtik);
+        } else {
+            Intent serviceStart = new Intent(getApplicationContext(), ArtikNotificationService.class);
+            startService(serviceStart);
         }
+
+        // Test
+        Intent problemSetActivity = new Intent(getApplicationContext(), ProblemSetActivity.class);
+        startActivity(problemSetActivity);
     }
 
     @Override
@@ -126,8 +133,8 @@ public class MainActivity extends AppCompatActivity
             ArtikConfig.debugNotification = true;
             Toast.makeText(this, "Debug Notification", Toast.LENGTH_SHORT).show();
         } else if (id == R.id.nav_debug6) {
-            Intent problemSetDebugActivity = new Intent(getApplicationContext(), ProblemSetDebugActivity.class);
-            startActivity(problemSetDebugActivity);
+            Intent problemSetActivity = new Intent(getApplicationContext(), ProblemSetActivity.class);
+            startActivity(problemSetActivity);
         }
 
         drawer.closeDrawer(GravityCompat.START);
@@ -159,7 +166,6 @@ public class MainActivity extends AppCompatActivity
         calendarView.setOnMonthChangeListener(new FlexibleCalendarView.OnMonthChangeListener() {
             @Override
             public void onMonthChange(int year, int month, @FlexibleCalendarView.Direction int direction) {
-                //Toast.makeText(MainActivity.this, "" + year + " " + (month + 1), Toast.LENGTH_SHORT).show();
                 Button btn = (Button) findViewById(R.id.date_picker);
                 btn.setText(year + " 년  " + (month + 1) + " 월");
                 initializeEvents();
@@ -209,13 +215,9 @@ public class MainActivity extends AppCompatActivity
                 dbmonth=month+1;
                 dbday=day;
 
-
                 lvSchedule.setVisibility(View.VISIBLE);
                 if(myHelper==null)
                     myHelper=new myDBHelper(MainActivity.this);
-
-                //List allSchedule=myHelper.getAllSchedule();
-                //lvSchedule.setAdapter(new ScheduleListAdapter(allSchedule,MainActivity.this));
 
                 List dateSchedule=myHelper.getDateSchedule(year,month,day);
                 lvSchedule.setAdapter(new ScheduleListAdapter(dateSchedule,MainActivity.this));
@@ -378,18 +380,8 @@ public class MainActivity extends AppCompatActivity
                                                     }
                                                 })
                                                 .create().show();
-
                                     }
                                 }).show();
-
-/*
-                        List dateSchedule2;
-                        layout0.removeAllViews();
-                        dateSchedule2=myHelper.getDateSchedule(dbyear,dbmonth-1,dbday);
-                        lvSchedule.setAdapter(new ScheduleListAdapter(dateSchedule2,MainActivity.this));
-                        layout0.addView(lvSchedule);
-                        */
-
                     }
                 });
 
@@ -544,7 +536,6 @@ public class MainActivity extends AppCompatActivity
                 dialog.show();
 
                 calendarView.refresh();
-                //initializeEvents();
             }
         });
 
@@ -561,7 +552,6 @@ public class MainActivity extends AppCompatActivity
 
     private void initializeEvents() {
         eventMap = new HashMap<>();
-        //eventMap=myHelper.PutSchedule(calendarView.getCurrentYear(),calendarView.getCurrentMonth());
     }
     public List<CustomEvent> getEvents(int year, int month, int day) {
 
@@ -655,12 +645,10 @@ public class MainActivity extends AppCompatActivity
 
         for(int i=0; i < days; i++){
             int eventNum = myHelper.getSchedCount(year, month, i+1);
-            //Toast.makeText(MainActivity.this, eventNum, Toast.LENGTH_SHORT).show();
             for(int j=0; j < eventNum; j++) {
                 colorLst[i].add(new CustomEvent(android.R.color.holo_red_dark));
             }
             if(eventNum != 0) eventMap.put(i+1, colorLst[i]);
         }
-        //Toast.makeText(MainActivity.this,"fillEvents date " + year + "  " + month,Toast.LENGTH_SHORT).show();
     }
 }

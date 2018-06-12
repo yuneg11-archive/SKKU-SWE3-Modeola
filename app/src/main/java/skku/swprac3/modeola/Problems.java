@@ -3,26 +3,37 @@ package skku.swprac3.modeola;
 import java.util.List;
 
 public class Problems {
-    Problem[] problems;
+    private Problem[] problems;
 
-    Problems(List<String> names, List<String> contents, List<Integer> answers, List<Integer> types) {
+    Problems(List<String> contents, List<String> contentsOriginal, List<Integer> answers, List<Integer> types) {
         problems = new Problem[5];
 
         int contentCur = 0;
         for(int i = 0; i < 5; i++) {
             String[] contentsT = null;
+            String[] contentsO = null;
             if(types.get(i) == 1) { // OX
-                contentsT = null;
-                contentCur+=2;
+                contentsT = new String[2];
+                contentsO = new String[2];
+                contentsT[0] = contents.get(contentCur);
+                contentsO[0] = contentsOriginal.get(contentCur++);
+                contentsT[1] = contents.get(contentCur);
+                contentsO[1] = contentsOriginal.get(contentCur++);
             } else if(types.get(i) == 2) { // Multiple
                 contentsT = new String[5];
-                contentsT[0] = contents.get(contentCur++);
-                contentsT[1] = contents.get(contentCur++);
-                contentsT[2] = contents.get(contentCur++);
-                contentsT[3] = contents.get(contentCur++);
-                contentsT[4] = contents.get(contentCur++);
+                contentsO = new String[5];
+                contentsT[0] = contents.get(contentCur);
+                contentsO[0] = contentsOriginal.get(contentCur++);
+                contentsT[1] = contents.get(contentCur);
+                contentsO[1] = contentsOriginal.get(contentCur++);
+                contentsT[2] = contents.get(contentCur);
+                contentsO[2] = contentsOriginal.get(contentCur++);
+                contentsT[3] = contents.get(contentCur);
+                contentsO[3] = contentsOriginal.get(contentCur++);
+                contentsT[4] = contents.get(contentCur);
+                contentsO[4] = contentsOriginal.get(contentCur++);
             }
-            problems[i] = new Problem(names.get(i), contentsT, answers.get(i), types.get(i));
+            problems[i] = new Problem(contentsT, contentsO, answers.get(i), types.get(i));
         }
     }
     public Problem getProblem(int index) {
@@ -30,17 +41,20 @@ public class Problems {
     }
 
 
-
     public class Problem {
-        String name;
-        String[] content;
-        int answer;
-        int type;
+        private String[] content;
+        private String[] contentOriginal;
+        private int answer;
+        private int type;
 
-        Problem(String name, String[] content, int answer, int type) {
-            this.name = name;
+        Problem(String[] content, String[] contentOriginal, int answer, int type) {
             if(type == 1) { // OX
-                this.content = null;
+                this.content = new String[2];
+                this.content[0] = content[0];
+                this.content[1] = content[1];
+                this.contentOriginal = new String[2];
+                this.contentOriginal[0] = contentOriginal[0];
+                this.contentOriginal[1] = contentOriginal[1];
             } else if(type == 2) { // Multiple
                 this.content = new String[5];
                 this.content[0] = content[0];
@@ -48,17 +62,23 @@ public class Problems {
                 this.content[2] = content[2];
                 this.content[3] = content[3];
                 this.content[4] = content[4];
+                this.contentOriginal = new String[5];
+                this.contentOriginal[0] = contentOriginal[0];
+                this.contentOriginal[1] = contentOriginal[1];
+                this.contentOriginal[2] = contentOriginal[2];
+                this.contentOriginal[3] = contentOriginal[3];
+                this.contentOriginal[4] = contentOriginal[4];
             }
             this.answer = answer;
-        }
-        public String getName() {
-            return name;
         }
         public String getContent(int index) {
             return content[index];
         }
         public String[] getContents() {
             return content;
+        }
+        public String[] getContentsOriginal() {
+            return contentOriginal;
         }
         public int getAnswer() {
             return answer;
@@ -68,26 +88,3 @@ public class Problems {
         }
     }
 }
-
-
-
-
-/* ---- Usage Example ----
-    myDBHelper myDB = new myDBHelper(getApplicationContext());
-    Problems probs = myDB.getProblems(3, 2); // OX 3sets, Multiple 2sets
-
-    String problem1Title = probs.getProblem(0).getTitle();
-
-    // Content get example1
-    String problem1Content1 = probs.getProblem(0).getContent(0);
-    String problem1Content2 = probs.getProblem(0).getContent(1);
-    String problem1Content3 = probs.getProblem(0).getContent(2);
-    String problem1Content4 = probs.getProblem(0).getContent(3);
-    String problem1Content5 = probs.getProblem(0).getContent(4);
-
-    // Content get example2
-    String[] problem1Contents = probs.getProblem(0).getContents();
-
-    int problem1Answer = probs.getProblem(0).getAnswer();
-    // if necessary, int problem1Type = probs.getProblem(0).getType();
- */
