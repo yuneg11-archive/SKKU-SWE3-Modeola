@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 
 public class myDBHelper extends SQLiteOpenHelper {
     private Context context;
@@ -123,10 +124,6 @@ public class myDBHelper extends SQLiteOpenHelper {
         return n;
     }
 
-    public List<Schedule> getScheduleForProblem() {
-        return getScheduleForProblem(25);
-    }
-
     public List<Schedule> getScheduleForProblem(int number) {
         ArrayList<Schedule> schedules = (ArrayList<Schedule>) getAllSchedule();
 
@@ -143,15 +140,15 @@ public class myDBHelper extends SQLiteOpenHelper {
         for(int i = 0; i < number; i++) {
             it.next();
         }
-        do {
+        while(it.hasNext()) {
             it.next();
             it.remove();
-        } while(it.hasNext());
+        }
 
         return schedules;
     }
 
-    public static Comparator<Schedule> priorityComparator = new Comparator<Schedule>(){
+    static Comparator<Schedule> priorityComparator = new Comparator<Schedule>(){
         public int compare(Schedule schedule1, Schedule schedule2){
             // Descending order
             return calculatePriority(schedule2) - calculatePriority(schedule1);
@@ -162,4 +159,108 @@ public class myDBHelper extends SQLiteOpenHelper {
             return schedule.getWeight();
         }
     };
+
+    public Problems getProblems(int probType1num, int probType2num) {
+        List<Schedule> schedules = getScheduleForProblem(probType1num * 2 + probType2num * 5);
+        List<String> names = new ArrayList<String>();
+        List<String> contents = new ArrayList<String>();
+        List<Integer> answers = new ArrayList<Integer>();
+        List<Integer> types = new ArrayList<Integer>();
+        Random random = new Random();
+
+        // Construct types and answers
+        for(int i = 0; i < probType1num; i++) {
+            types.add(1);
+            answers.add(random.nextInt(2));
+        }
+        for(int i = 0; i < probType2num; i++) {
+            types.add(2);
+            answers.add(random.nextInt(5));
+        }
+
+        // Construct contents
+        int scheduleBaseCur = 0;
+        int problemCur = 0;
+        Collections.shuffle(schedules);
+        for(int i = 0; i < probType1num; i++) {
+            if(answers.get(problemCur) == 1) {
+                int property = random.nextInt(4);
+                if(property == 0) { // When
+                    schedules.get(scheduleBaseCur).setYear(schedules.get(scheduleBaseCur+1).getYear());
+                    schedules.get(scheduleBaseCur).setMonth(schedules.get(scheduleBaseCur+1).getMonth());
+                    schedules.get(scheduleBaseCur).setDay(schedules.get(scheduleBaseCur+1).getDay());
+                    schedules.get(scheduleBaseCur).setHour(schedules.get(scheduleBaseCur+1).getHour());
+                } else if(property == 1) { // Where
+                    schedules.get(scheduleBaseCur).setWhere(schedules.get(scheduleBaseCur+1).getWhere());
+                } else if(property == 2) { // Who
+                    schedules.get(scheduleBaseCur).setWho(schedules.get(scheduleBaseCur+1).getWho());
+                } else if(property == 3) { // What
+                    schedules.get(scheduleBaseCur).setWhat(schedules.get(scheduleBaseCur+1).getWhat());
+                }
+            }
+            Schedule s = schedules.get(scheduleBaseCur);
+            names.add(makeContents(s.getYear(), s.getMonth(), s.getDay(), s.getHour(), s.getWhere(), s.getWho(), s.getWhat()));
+            contents.add("");
+            contents.add("");
+            problemCur++;
+            scheduleBaseCur+=2;
+        }
+        for(int i = 0; i < probType2num; i++) {
+            int property = random.nextInt(4);
+            List<Integer> contentShuffle = new ArrayList<Integer>();
+            contentShuffle.add(0);
+            contentShuffle.add(1);
+            contentShuffle.add(2);
+            contentShuffle.add(3);
+            Collections.shuffle(contentShuffle);
+            if(property == 0) { // When
+                int[][] time = new int[4][4];
+                for(int j = 0; j < 4; j++) {
+                    time[j][0] = schedules.get(scheduleBaseCur+j).getYear();
+                    time[j][1] = schedules.get(scheduleBaseCur+j).getMonth();
+                    time[j][2] = schedules.get(scheduleBaseCur+j).getDay();
+                    time[j][3] = schedules.get(scheduleBaseCur+j).getHour();
+                }
+                for(int j = 0; j < 4; j++) {
+                    schedules.get(scheduleBaseCur+j).setYear(time[contentShuffle.get(j)][0]);
+                    schedules.get(scheduleBaseCur+j).setMonth(time[contentShuffle.get(j)][1]);
+                    schedules.get(scheduleBaseCur+j).setDay(time[contentShuffle.get(j)][2]);
+                    schedules.get(scheduleBaseCur+j).setHour(time[contentShuffle.get(j)][3]);
+                }
+            } else if(property == 1) { // Where
+                String[] where = new String[4];
+                for(int j = 0; j < 4; j++)
+                    where[j] = schedules.get(scheduleBaseCur+j).getWhere();
+                for(int j = 0; j < 4; j++)
+                    schedules.get(scheduleBaseCur+j).setWhere(where[contentShuffle.get(j)]);
+            } else if(property == 2) { // Who
+                String[] who = new String[4];
+                for(int j = 0; j < 4; j++)
+                    who[j] = schedules.get(scheduleBaseCur+j).getWhere();
+                for(int j = 0; j < 4; j++)
+                    schedules.get(scheduleBaseCur+j).setWhere(who[contentShuffle.get(j)]);
+            } else if(property == 3) { // What
+                String[] what = new String[4];
+                for(int j = 0; j < 4; j++)
+                    what[j] = schedules.get(scheduleBaseCur+j).getWhere();
+                for(int j = 0; j < 4; j++)
+                    schedules.get(scheduleBaseCur+j).setWhere(what[contentShuffle.get(j)]);
+            }
+            for(int j = 0; j < 5; j++) {
+                Schedule s = schedules.get(scheduleBaseCur+j);
+                contents.add(makeContents(s.getYear(), s.getMonth(), s.getDay(), s.getHour(), s.getWhere(), s.getWho(), s.getWhat()));
+            }
+            if(answers.get(i) != 4)
+                Collections.swap(contents, scheduleBaseCur+answers.get(problemCur), scheduleBaseCur+4);
+            names.add("");
+            problemCur++;
+            scheduleBaseCur+=5;
+        }
+
+        return new Problems(names, contents, answers, types);
+    }
+
+    String makeContents(int year, int month, int day, int hour, String where, String who, String what) {
+        return String.format("나는 \'%d년 %d월 %d일 %d시\'에 \'%s\'에서 \'%s\'와 \'%s\'을(를) 한다.", year, month, day, hour, where, who, what);
+    }
 }
