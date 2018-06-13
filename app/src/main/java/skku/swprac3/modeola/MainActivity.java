@@ -98,8 +98,8 @@ public class MainActivity extends AppCompatActivity
         }
 
         // Test
-        Intent problemSetActivity = new Intent(getApplicationContext(), ProblemSetActivity.class);
-        startActivity(problemSetActivity);
+        //Intent problemSetActivity = new Intent(getApplicationContext(), ProblemSetActivity.class);
+        //startActivity(problemSetActivity);
     }
 
     @Override
