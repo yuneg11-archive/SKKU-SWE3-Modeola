@@ -77,6 +77,7 @@ public class ProblemSetActivity extends Activity {
                 intent.putIntegerArrayListExtra("answers", answers);
                 intent.putIntegerArrayListExtra("types", types);
                 intent.putIntegerArrayListExtra("selects", selects);
+                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
                 startActivity(intent);
                 finish();
             }
